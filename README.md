@@ -1,5 +1,5 @@
 # maxmeout
-Monitor your nearby Apple stores for Airpods Max availability!
+Monitor your nearby Apple stores for Airpods Max inventory availability!
 
 <p align="center">
   <img src="https://github.com/tonypeng/maxmeout/raw/main/assets/running_screenshot.png" />
