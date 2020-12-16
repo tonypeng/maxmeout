@@ -48,13 +48,13 @@ def check_model_near(model, store_id):
         for store in resp['body']['stores']:
             store_name = store['storeName']
             if check_store(store, model):
-                print(f'Found {model_id_to_name[model]} availability at {store_name}!')
+                log(f'Found {model_id_to_name[model]} availability at {store_name}!')
                 beepy.beep(1)
                 found = True
         if not found:
             log(f'No availability found for {model_id_to_name[model]}.')
     else:
-        print(f"Received unexpected status code ${r.status_code}")
+        log(f"Received unexpected status code ${r.status_code}")
 
 while True:
     for model in models_to_watch:
