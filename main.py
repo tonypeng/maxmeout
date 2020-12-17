@@ -40,21 +40,24 @@ def check_store(store, product):
     return store['partsAvailability'][product]['pickupDisplay'] != 'unavailable'
 
 def check_model_near(model, store_id):
-    r = requests.get(
-        f'https://www.apple.com/shop/retail/pickup-message?pl=true&searchNearby=true&store={store_id}&parts.0={model}')
-    if r.status_code == 200:
-        resp = r.json()
-        found = False
-        for store in resp['body']['stores']:
-            store_name = store['storeName']
-            if check_store(store, model):
-                log(f'Found {model_id_to_name[model]} availability at {store_name}!')
-                beepy.beep(1)
-                found = True
-        if not found:
-            log(f'No availability found for {model_id_to_name[model]}.')
-    else:
-        log(f"Received unexpected status code ${r.status_code}")
+    try:
+        r = requests.get(
+            f'https://www.apple.com/shop/retail/pickup-message?pl=true&searchNearby=true&store={store_id}&parts.0={model}')
+        if r.status_code == 200:
+            resp = r.json()
+            found = False
+            for store in resp['body']['stores']:
+                store_name = store['storeName']
+                if check_store(store, model):
+                    log(f'Found {model_id_to_name[model]} availability at {store_name}!')
+                    beepy.beep(1)
+                    found = True
+            if not found:
+                log(f'No availability found for {model_id_to_name[model]}.')
+        else:
+            log(f"Received unexpected status code ${r.status_code}")
+    except:
+        log(f"Error requesting store availability.")
 
 while True:
     for model in models_to_watch:
